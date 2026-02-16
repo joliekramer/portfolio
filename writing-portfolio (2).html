@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F9FAF5;
+            --charcoal: #2B2B2B;
+            --soft-gray: #6B6B6B;
+            --accent: #6B8E6F;
+            --light-accent: #A8B9A5;
+            --sage: #8BA888;
+            --border: #D9E4D8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            background: linear-gradient(180deg, var(--cream) 0%, rgba(255,254,249,0) 100%);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 4rem;
+            background: linear-gradient(to bottom, transparent, var(--border));
+            opacity: 0;
+            animation: fadeInDown 1.2s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--soft-gray);
+            letter-spacing: 0.05em;
+            text-transform: lowercase;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.7s;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 254, 249, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.9s;
+        }
+
+        nav a {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--soft-gray);
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 4rem 0 6rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-photo-container {
+            position: relative;
+        }
+
+        .about-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(107, 142, 111, 0.15);
+        }
+
+        .about-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--charcoal);
+        }
+
+        /* Writing Samples Grid */
+        .samples-section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 4rem;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .samples-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .sample-card {
+            border: 1px solid var(--border);
+            padding: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background: white;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .sample-card:nth-child(1) { animation-delay: 0.1s; }
+        .sample-card:nth-child(2) { animation-delay: 0.2s; }
+        .sample-card:nth-child(3) { animation-delay: 0.3s; }
+        .sample-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .sample-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        .sample-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .sample-card:hover::before {
+            width: 100%;
+        }
+
+        .sample-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--soft-gray);
+        }
+
+        .sample-category {
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        .sample-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        .sample-excerpt {
+            color: var(--soft-gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        .read-more::after {
+            content: '→';
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 0 4rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .contact-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--soft-gray);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 5rem 2rem 3rem;
+            }
+
+            nav {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-photo {
+                max-width: 300px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .samples-grid {
+                gap: 2rem;
+            }
+
+            .sample-card {
+                padding: 2rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jolie Kramer</h1>
+        <p class="tagline">Writer & Journalist</p>
+    </header>
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#samples">Writing</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="container">
+        <section id="about" class="about">
+            <div class="about-content">
+                <div class="about-photo-container">
+                    <img src="jolie-photo.jpg" alt="Jolie Kramer" class="about-photo">
+                </div>
+                <div class="about-text">
+                    <p>I'm a community journalist telling stories that matter in Central Pennsylvania. From local businesses and cultural traditions to social impact initiatives and grassroots advocacy, I explore how everyday people are shaping their communities.</p>
+                    <p style="margin-top: 1.5rem;">Based in Lancaster, Pennsylvania, I'm a freelance contributor to The Burg. In 2025, I received the Keystone Media Award from the Pennsylvania NewsMedia Association for Excellence in Reporting on Diversity, Equity and Inclusion.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="samples" class="samples-section">
+            <h2 class="section-title">Selected Writing</h2>
+            <div class="samples-grid">
+                <article class="sample-card">
+                    <div class="sample-meta">
+                        <span class="sample-category">Food & Culture</span>
+                        <span>•</span>
+                        <span>January 2026</span>
+                    </div>
+                    <h3 class="sample-title">Tastes of Home: Two Brothers Bring Nepali Fusion Flavors to Camp Hill</h3>
+                    <p class="sample-excerpt">A story about two brothers who are bringing the authentic flavors of Nepal to Central Pennsylvania, blending traditional family recipes with modern fusion cuisine to create a unique dining experience that bridges cultures.</p>
+                    <a href="https://theburgnews.com/monthly-magazine/tastes-of-home-two-brothers-bring-nepali-fusion-flavors-to-camp-hill" target="_blank" class="read-more">Read Full Piece</a>
+                </article>
+
+                <article class="sample-card">
+                    <div class="sample-meta">
+                        <span class="sample-category">Food & Culture</span>
+                        <span>•</span>
+                        <span>August 2024</span>
+                    </div>
+                    <h3 class="sample-title">Taste of Culture: A New Restaurant Serves Elegance, Black Culture in Harrisburg</h3>
+                    <p class="sample-excerpt">An exploration of how one restaurant is creating a sophisticated dining experience that celebrates Black culture and culinary excellence, bringing new flavors and cultural pride to Harrisburg's food scene.</p>
+                    <a href="https://theburgnews.com/business/taste-of-culture-a-new-restaurant-serves-elegance-black-culture-in-harrisburg" target="_blank" class="read-more">Read Full Piece</a>
+                </article>
+
+                <article class="sample-card">
+                    <div class="sample-meta">
+                        <span class="sample-category">Social Impact</span>
+                        <span>•</span>
+                        <span>July 2024</span>
+                    </div>
+                    <h3 class="sample-title">Grounds for Change: A Newly Opened Camp Hill Coffee Shop Employs, Advocates for Survivors of Human Trafficking</h3>
+                    <p class="sample-excerpt">A powerful story about a coffee shop with a mission beyond great coffee—providing employment opportunities and advocacy for survivors of human trafficking while raising awareness in the community.</p>
+                    <a href="https://theburgnews.com/business/grounds-for-change-a-newly-opened-camp-hill-coffee-shop-employs-advocates-for-survivors-of-human-trafficking" target="_blank" class="read-more">Read Full Piece</a>
+                </article>
+
+                <article class="sample-card">
+                    <div class="sample-meta">
+                        <span class="sample-category">Community Advocacy</span>
+                        <span>•</span>
+                        <span>June 2024</span>
+                    </div>
+                    <h3 class="sample-title">Plates for Paws: Animal Advocate Essie Petrovich Uses License Plates to Share Spay/Neuter Message</h3>
+                    <p class="sample-excerpt">The creative story of a local animal advocate who turned her passion into action, using custom license plates as a mobile billboard to spread awareness about spay and neuter programs throughout the community.</p>
+                    <a href="https://theburgnews.com/around-the-burg/plates-for-paws-animal-advocate-essie-petrovich-uses-license-plates-to-share-spay-neuter-message" target="_blank" class="read-more">Read Full Piece</a>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2 class="contact-title">Let's Connect</h2>
+            <p style="color: var(--soft-gray); max-width: 500px; margin: 0 auto;">
+                I'm always interested in new writing opportunities, collaborations, and conversations about community journalism.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:joliekramer@yahoo.com" class="contact-link">Email</a>
+                <a href="https://www.linkedin.com/in/joliekramer/" target="_blank" class="contact-link">LinkedIn</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 Jolie Kramer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Add scroll-triggered animations for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.sample-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
